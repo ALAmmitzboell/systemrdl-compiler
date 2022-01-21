@@ -15,6 +15,7 @@ def convert_field(rdlc: RDLCompiler, obj: node.FieldNode) -> dict:
     json_obj['msb'] = obj.msb
     json_obj['reset'] = obj.get_property('reset')
     json_obj['sw_access'] = obj.get_property('sw').name
+    json_obj['desc'] = obj.get_property('desc') # description
     return json_obj
 
 
@@ -32,6 +33,7 @@ def convert_reg(rdlc: RDLCompiler, obj: node.RegNode) -> dict:
     json_obj['type'] = 'reg'
     json_obj['inst_name'] = obj.inst_name
     json_obj['addr_offset'] = obj.address_offset
+    json_obj['desc'] = obj.get_property('desc') # description
 
     # Iterate over all the fields in this reg and convert them
     json_obj['children'] = []
@@ -59,6 +61,7 @@ def convert_addrmap_or_regfile(rdlc: RDLCompiler, obj: Union[node.AddrmapNode, n
 
     json_obj['inst_name'] = obj.inst_name
     json_obj['addr_offset'] = obj.address_offset
+    json_obj['desc'] = obj.get_property('desc') # description
 
     json_obj['children'] = []
     for child in obj.children():
