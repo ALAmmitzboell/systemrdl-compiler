@@ -407,7 +407,8 @@ class Node:
 
         # Is it even a valid property or allowed for this component type?
         if rule is None:
-            raise LookupError("Unknown property '%s'" % prop_name)
+            #raise LookupError("Unknown property '%s'" % prop_name)
+            return None
         if type(self.inst) not in rule.bindable_to:
             raise LookupError("Unknown property '%s'" % prop_name)
 

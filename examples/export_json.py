@@ -31,23 +31,33 @@ def convert_reg(rdlc: RDLCompiler, obj: node.RegNode) -> dict:
 
     # Convert information about the register
     json_obj = dict()
-    json_obj['type'] = 'reg'
-    json_obj['inst_name'] = obj.inst_name
+    if obj.get_property('type') != None:
+        json_obj['type'] = 'reg'
+
+    if obj.get_property('inst_name') != None:
+        json_obj['inst_name'] = obj.inst_name
+
+    # set 0bj.current_idx to avoid ValueError: Index of array element must be known to derive address
     if obj.is_array:
-        obj.current_idx = [0] # current_idx must be set, may be incorrect!
+        obj.current_idx = [0]
 
-    json_obj['addr_offset'] = obj.address_offset
+    if obj.get_property('addr_offset') != None:
+        json_obj['addr_offset'] = obj.address_offset
 
-    json_obj['desc'] = obj.get_property('desc') # description
-    json_obj['index'] = obj.get_property('indexdesc')
+    if obj.get_property('desc') != None:
+        json_obj['desc'] = obj.get_property('desc') # description
 
-    # 
-    node_iter = obj.unrolled()
-    entries = 0
-    for node in node_iter:
-        entries += 1
+    if obj.get_property('indexdesc') != None:
+        json_obj['index'] = obj.get_property('indexdesc')
 
-    json_obj['entries'] = entries
+    if obj.is_array:
+        node_iter = obj.unrolled()
+        entries = 0
+        for node in node_iter:
+            entries += 1
+
+        json_obj['entries'] = entries
+        json_obj['entry_size'] = 0 # replace with correct property!
 
     # Iterate over all the fields in this reg and convert them
     json_obj['children'] = []
@@ -73,9 +83,14 @@ def convert_addrmap_or_regfile(rdlc: RDLCompiler, obj: Union[node.AddrmapNode, n
     else:
         raise RuntimeError
 
-    json_obj['inst_name'] = obj.inst_name
-    json_obj['addr_offset'] = obj.address_offset
-    json_obj['desc'] = obj.get_property('desc') # description
+    if obj.get_property('inst_name') != None:
+        json_obj['inst_name'] = obj.inst_name
+
+    if obj.get_property('addr_offset') != None:
+        json_obj['addr_offset'] = obj.address_offset
+
+    if obj.get_property('desc') != None:
+        json_obj['desc'] = obj.get_property('desc') # description
 
     json_obj['children'] = []
     for child in obj.children():
