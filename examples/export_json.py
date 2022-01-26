@@ -31,18 +31,14 @@ def convert_reg(rdlc: RDLCompiler, obj: node.RegNode) -> dict:
 
     # Convert information about the register
     json_obj = dict()
-    if obj.get_property('type') != None:
-        json_obj['type'] = 'reg'
+    json_obj['type'] = 'reg'
+    json_obj['inst_name'] = obj.inst_name
 
-    if obj.get_property('inst_name') != None:
-        json_obj['inst_name'] = obj.inst_name
-
-    # set 0bj.current_idx to avoid ValueError: Index of array element must be known to derive address
+    # set obj.current_idx to avoid ValueError: Index of array element must be known to derive address
     if obj.is_array:
         obj.current_idx = [0]
 
-    if obj.get_property('addr_offset') != None:
-        json_obj['addr_offset'] = obj.address_offset
+    json_obj['addr_offset'] = obj.address_offset
 
     if obj.get_property('desc') != None:
         json_obj['desc'] = obj.get_property('desc') # description
@@ -83,11 +79,8 @@ def convert_addrmap_or_regfile(rdlc: RDLCompiler, obj: Union[node.AddrmapNode, n
     else:
         raise RuntimeError
 
-    if obj.get_property('inst_name') != None:
-        json_obj['inst_name'] = obj.inst_name
-
-    if obj.get_property('addr_offset') != None:
-        json_obj['addr_offset'] = obj.address_offset
+    json_obj['inst_name'] = obj.inst_name
+    json_obj['addr_offset'] = obj.address_offset
 
     if obj.get_property('desc') != None:
         json_obj['desc'] = obj.get_property('desc') # description
