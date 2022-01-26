@@ -20,19 +20,23 @@ def convert_field(rdlc: RDLCompiler, obj: node.FieldNode) -> dict:
 
 
 def convert_reg(rdlc: RDLCompiler, obj: node.RegNode) -> dict:
-    if obj.is_array:
+    #if obj.is_array:
         # Use the RDL Compiler message system to print an error
         # fatal() raises RDLCompileError
-        rdlc.msg.fatal(
-            "JSON export does not support arrays",
-            obj.inst.inst_src_ref
-        )
+    #    rdlc.msg.fatal(
+    #        "JSON export does not support arrays",
+    #        obj.inst.inst_src_ref
+    #    )
 
     # Convert information about the register
     json_obj = dict()
     json_obj['type'] = 'reg'
     json_obj['inst_name'] = obj.inst_name
+    if obj.is_array:
+        obj.current_idx = [0] # current_idx must be set, may be incorrect!
+
     json_obj['addr_offset'] = obj.address_offset
+
     json_obj['desc'] = obj.get_property('desc') # description
 
     # Iterate over all the fields in this reg and convert them
