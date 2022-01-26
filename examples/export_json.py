@@ -53,7 +53,7 @@ def convert_reg(rdlc: RDLCompiler, obj: node.RegNode) -> dict:
             entries += 1
 
         json_obj['entries'] = entries
-        json_obj['entry_size'] = 1 # replace with correct property!
+        json_obj['entry_size'] = "unknown" # replace with correct property!
 
     # Iterate over all the fields in this reg and convert them
     json_obj['children'] = []
