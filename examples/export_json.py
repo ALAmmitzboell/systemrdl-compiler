@@ -39,6 +39,7 @@ def convert_reg(rdlc: RDLCompiler, obj: node.RegNode) -> dict:
     json_obj['addr_offset'] = obj.address_offset
 
     json_obj['desc'] = obj.get_property('desc') # description
+    json_obj['index'] = obj.get_property('indexdesc')
 
     # 
     node_iter = obj.unrolled()
