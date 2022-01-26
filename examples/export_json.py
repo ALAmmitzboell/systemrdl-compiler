@@ -40,6 +40,14 @@ def convert_reg(rdlc: RDLCompiler, obj: node.RegNode) -> dict:
 
     json_obj['desc'] = obj.get_property('desc') # description
 
+    # 
+    node_iter = obj.unrolled()
+    entries = 0
+    for node in node_iter:
+        entries += 1
+
+    json_obj['entries'] = entries
+
     # Iterate over all the fields in this reg and convert them
     json_obj['children'] = []
     for field in obj.fields():
